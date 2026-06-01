@@ -193,6 +193,41 @@
     .mcta .m-call{flex:0 0 52px;background:#eef5f1;color:var(--em);display:flex;align-items:center;justify-content:center;font-size:19px}
     .mcta .m-cat{background:var(--em);color:#fff}
   }
+
+  /* quiz */
+  .quiz{background:var(--bg);padding:50px 0 10px}
+  .quiz-card{max-width:780px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 16px 44px rgba(60,45,25,.10);padding:34px 38px;min-height:300px}
+  .quiz-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .quiz-step{font-size:12.5px;font-weight:700;color:var(--em);letter-spacing:.05em;text-transform:uppercase}
+  .quiz-restart{font-size:13px;color:var(--muted);cursor:pointer;background:none;border:none;font-family:inherit}
+  .quiz-restart:hover{color:var(--em)}
+  .quiz-bar{height:5px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:26px}
+  .quiz-bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--em),#2fa07c);border-radius:6px;transition:width .35s}
+  .quiz-q{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;margin-bottom:22px;line-height:1.2}
+  .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .quiz-opt{display:flex;align-items:center;gap:13px;text-align:left;padding:16px 18px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-family:inherit;font-size:15.5px;font-weight:600;color:var(--ink);transition:.18s}
+  .quiz-opt:hover{border-color:var(--em);background:#f3f9f6;transform:translateY(-2px)}
+  .quiz-opt .em{font-size:23px;line-height:1;flex:0 0 auto}
+  .quiz-res{display:grid;grid-template-columns:1fr 1.25fr;gap:30px;align-items:center}
+  .quiz-res .rimg{border-radius:14px;overflow:hidden;aspect-ratio:1;box-shadow:0 14px 30px rgba(60,45,25,.18)}
+  .quiz-res .rimg img{width:100%;height:100%;object-fit:cover;display:block}
+  .quiz-res .rlabel{font-size:12.5px;font-weight:700;color:var(--em);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+  .quiz-res h3{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;margin-bottom:10px}
+  .quiz-res .rmeta{font-size:14px;margin-bottom:8px}
+  .quiz-res .rmeta .nat{color:var(--em);font-weight:700}.quiz-res .rmeta .ton{color:#b07d2e;font-weight:700}
+  .quiz-res .rblurb{font-size:15px;color:var(--muted);margin-bottom:16px;line-height:1.6}
+  .quiz-res .rprice{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;margin-bottom:18px}
+  .quiz-res .ractions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  @media(max-width:900px){
+    .quiz{padding:32px 0 6px}
+    .quiz-card{padding:22px 18px;border-radius:14px}
+    .quiz-q{font-size:20px}
+    .quiz-opts{grid-template-columns:1fr}
+    .quiz-res{grid-template-columns:1fr;gap:18px}
+    .quiz-res .rimg{max-width:200px}
+    .quiz-res h3{font-size:24px}
+    .quiz-res .ractions .btn{width:100%;justify-content:center}
+  }
 </style>
 </head>
 <body>
@@ -229,13 +264,10 @@
   </div>
 </div></section>
 
-<div class="finder" id="finder"><div class="wrap">
-  <span class="ftitle">Подобрать камень:</span>
-  <div class="ffield"><label>Тип камня</label><select><option>Любой</option><option>Агат</option><option>Кварц</option><option>Жемчуг</option><option>Лабрадорит</option><option>Малахит</option><option>Коралл</option><option>Турмалин</option><option>Опал</option></select></div>
-  <div class="ffield"><label>Цвет</label><select><option>Любой</option><option>Синий</option><option>Зелёный</option><option>Красный</option><option>Жёлтый</option><option>Белый</option><option>Чёрный</option><option>Розовый</option></select></div>
-  <div class="ffield"><label>Диаметр</label><select><option>Любой</option><option>4 мм</option><option>6 мм</option><option>8 мм</option><option>10 мм</option><option>12 мм</option><option>крошка</option><option>срез</option></select></div>
-  <a class="btn btn-primary" href="#prods">Найти →</a>
-</div></div>
+<section class="quiz" id="finder"><div class="wrap">
+  <div class="sec-head" style="margin-bottom:24px"><h2>Подберём камень за 30 секунд</h2><p>Ответьте на 4 вопроса — покажем, что подойдёт именно вам</p></div>
+  <div class="quiz-card" id="quizCard"></div>
+</div></section>
 
 <div class="trustbar"><div class="wrap">
   <div class="tb"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l8 3v6c0 5-3.5 8-8 11-4.5-3-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg></div><div><div class="t">Гарантия подлинности</div><div class="s">Только природный камень</div></div></div>
@@ -336,5 +368,86 @@
 
 <div class="mcta"><a class="m-call" href="tel:+79697025000">✆</a><a class="m-cat" href="#prods">В каталог — 4413 камней</a></div>
 
+<script>
+(function(){
+  var IMG='shopimg/';
+  var STEPS=[
+    {q:'Для чего подбираете камень?',key:'purpose',opts:[
+      {em:'\u{1F48D}',t:'Украшения на заказ',v:'work'},
+      {em:'\u{1F381}',t:'В подарок',v:'gift'},
+      {em:'✨',t:'Себе, для настроения',v:'self'},
+      {em:'\u{1F52E}',t:'Коллекция или практика',v:'collection'}
+    ]},
+    {q:'Какой цвет ближе?',key:'color',opts:[
+      {em:'\u{1F535}',t:'Синий, голубой',v:'blue'},
+      {em:'\u{1F7E2}',t:'Зелёный',v:'green'},
+      {em:'\u{1F534}',t:'Красный, тёплый',v:'red'},
+      {em:'⚪',t:'Светлый, нейтральный',v:'light'},
+      {em:'\u{1F308}',t:'Люблю яркое и разное',v:'bright'}
+    ]},
+    {q:'Какой размер нужен?',key:'size',opts:[
+      {em:'•',t:'Мелкая бусина (4–6 мм)',v:'small'},
+      {em:'●',t:'Средняя (8–10 мм)',v:'mid'},
+      {em:'⬤',t:'Крупная (12 мм и больше)',v:'big'},
+      {em:'◆',t:'Не бусина — срез или кристалл',v:'piece'}
+    ]},
+    {q:'Природный цвет или допускаете тонировку?',key:'natural',opts:[
+      {em:'\u{1F33F}',t:'Только природный',v:'nat'},
+      {em:'\u{1F3A8}',t:'Допускаю тонировку ради яркого цвета',v:'ton'}
+    ]}
+  ];
+  var R={
+    labrador:{name:'Лабрадорит',img:'sq_-1204_labrkvgran18_1-320x320.jpg',meta:'<span class="nat">природный</span> · граненый квадрат 18 мм',price:'1 204 ₽',blurb:'Природный камень с синим переливом — глубокий цвет без всякой тонировки. То, что нужно, когда хочется синий по-настоящему.'},
+    agat_blue:{name:'Агат синий',img:'prod02.jpg',meta:'<span class="ton">тонирован</span> · шар 12 мм',price:'410 ₽',blurb:'Яркий насыщенный синий за счёт честной тонировки. Крупный шар эффектно смотрится в браслетах.'},
+    agat_laz:{name:'Агат лазурный',img:'prod03.jpg',meta:'<span class="ton">тонирован</span> · шар 10 мм',price:'380 ₽',blurb:'Глубокий лазурный оттенок, ровный цвет по всей нити — удобно для серийных украшений.'},
+    malachite:{name:'Малахит',img:'sq_-malahitkroshkakruglaya1-320x320.jpg',meta:'<span class="nat">природный</span> · крошка',price:'320 ₽',blurb:'Природный зелёный с фирменным узором. Каждая бусина уникальна по рисунку.'},
+    agat_green:{name:'Агат зелёный',img:'prod05.jpg',meta:'<span class="ton">тонирован</span> · шар 4 мм',price:'230 ₽',blurb:'Ровный мягкий зелёный, мелкая бусина — для нежных и плетёных украшений.'},
+    coral:{name:'Коралл красный',img:'sq_-00000ko-320x320.jpg',meta:'<span class="ton">облагорожен</span> · овал',price:'540 ₽',blurb:'Тёплый красный коралл — классика, которая всегда в цене. Облагораживание честно помечаем.'},
+    agat_warm:{name:'Агат оранжевый',img:'prod04.jpg',meta:'<span class="ton">тонирован</span> · шар 10 мм',price:'360 ₽',blurb:'Солнечный тёплый оттенок — добавляет украшению энергии и контраста.'},
+    quartz:{name:'Кварц-микс',img:'sq_-1-320x320.jpg',meta:'<span class="nat">природный</span> · ассорти',price:'290 ₽',blurb:'Набор разных бусин — удобно начать или собрать палитру сразу под несколько изделий.'},
+    sliceAgat:{name:'Срез агата',img:'prod07.jpg',meta:'<span class="nat">природный</span> · 1 шт',price:'480 ₽',blurb:'Природный срез с уникальным рисунком — как подвеска или акцент авторского украшения.'},
+    minerals:{name:'Коллекционные минералы',img:'ban_banner3-1140x380.jpg',meta:'775 образцов · каждый уникален',price:'от 200 ₽',blurb:'Редкие кристаллы и срезы для коллекции или подарка ценителю. Каждый образец — в одном экземпляре.'}
+  };
+  function decide(a){
+    if(a.size==='piece') return a.purpose==='collection'?'minerals':'sliceAgat';
+    if(a.purpose==='collection') return 'minerals';
+    var nat=(a.natural!=='ton');
+    switch(a.color){
+      case 'blue': return nat?'labrador':(a.size==='big'?'agat_blue':'agat_laz');
+      case 'green': return nat?'malachite':'agat_green';
+      case 'red': return nat?'coral':'agat_warm';
+      case 'light': return 'quartz';
+      case 'bright': return a.purpose==='gift'?'minerals':'quartz';
+      default: return 'quartz';
+    }
+  }
+  var card=document.getElementById('quizCard'); if(!card) return;
+  var st={i:0,ans:{}};
+  function step(){
+    var s=STEPS[st.i];
+    var pct=Math.round(st.i/STEPS.length*100);
+    var opts=s.opts.map(function(o){return '<button class="quiz-opt" data-v="'+o.v+'"><span class="em">'+o.em+'</span> '+o.t+'</button>';}).join('');
+    card.innerHTML='<div class="quiz-top"><span class="quiz-step">Вопрос '+(st.i+1)+' из '+STEPS.length+'</span>'+(st.i>0?'<button class="quiz-restart" data-act="restart">Начать заново</button>':'')+'</div>'+
+      '<div class="quiz-bar"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="quiz-q">'+s.q+'</div>'+
+      '<div class="quiz-opts">'+opts+'</div>';
+    card.querySelectorAll('.quiz-opt').forEach(function(b){b.addEventListener('click',function(){st.ans[s.key]=b.getAttribute('data-v');st.i++;(st.i>=STEPS.length)?result():step();});});
+    var rb=card.querySelector('[data-act=restart]'); if(rb) rb.addEventListener('click',restart);
+  }
+  function result(){
+    var r=R[decide(st.ans)]||R.quartz;
+    card.innerHTML='<div class="quiz-top"><span class="quiz-step">Готово · ваш камень</span><button class="quiz-restart" data-act="restart">Пройти заново</button></div>'+
+      '<div class="quiz-bar"><i style="width:100%"></i></div>'+
+      '<div class="quiz-res"><div class="rimg"><img src="'+IMG+r.img+'" alt="'+r.name+'"></div>'+
+      '<div><div class="rlabel">Вам подойдёт</div><h3>'+r.name+'</h3><div class="rmeta">'+r.meta+'</div>'+
+      '<div class="rblurb">'+r.blurb+'</div><div class="rprice">'+r.price+'</div>'+
+      '<div class="ractions"><a class="btn btn-primary" href="#prods">Смотреть в каталоге →</a>'+
+      '<button class="quiz-restart" data-act="restart" style="border:1.5px solid var(--line);padding:14px 22px;border-radius:34px;font-weight:700;color:var(--ink)">Подобрать другой</button></div></div></div>';
+    card.querySelectorAll('[data-act=restart]').forEach(function(b){b.addEventListener('click',restart);});
+  }
+  function restart(){st={i:0,ans:{}};step();}
+  step();
+})();
+</script>
 </body>
 </html>
